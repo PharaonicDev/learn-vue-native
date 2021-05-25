@@ -1,50 +1,56 @@
 <template>
-  <view class="container">
-  <text class="text-login">Login</text>
- 
-    <text-input
-      class="text-input-container"
-      placeholder="user name"
-      v-model="textContent"
+  <view class="container" >
+    <animated:view
+      class="growth-animated-view"
+      :style="{
+        height: growth,
+        width: growth ,
+        borderRadius:growth,
+      }"
     />
-    <text-input 
-     class="text-input-container"
-     placeholder="password"
-     />
-    <text class="text-container">{{textContent}}</text>
-</view>
-  </template>
+  </view>
+</template>
 
- <script>
-export default {
-  data: function() {
-    return {
-      textContent: ""
-    };
-  }
-};
-</script>
- <style>
+<style>
+.growth-animated-view {
+  background-color: "rgb(0, 138, 231)";
+  align-self: center;
+}
+
 .container {
-  background-color: white;
-  align-items: center;
   justify-content: center;
   flex: 1;
 }
-.text-container {
-  color: blue;
-  padding: 2;
-  font-size: 22;
-}
-.text-login {
-  font-size:30;
-  color:gray;
- justify-content: center;
-}
-.text-input-container {
-  width: 300;
-  height: 60;
-  font-size: 22;
-  border-color: 
-}
 </style>
+
+<script>
+import { Animated, Easing } from "react-native";
+
+export default {
+  data: function() {
+    return {
+      growth: 0
+    };
+  },
+  created: function() {
+    this.growth = new Animated.Value(0);
+  },
+  mounted: function() {
+    this.animateGrowth();
+  },
+  methods: {
+    animateGrowth: function() {
+
+      this.growth.setValue(0);
+
+      Animated.timing(this.growth, {
+        toValue: 200,
+        duration: 1000,
+        easing: Easing.linear
+      }).start(() => {
+        // this.animateGrowth();
+      });
+    }
+  }
+};
+</script>
